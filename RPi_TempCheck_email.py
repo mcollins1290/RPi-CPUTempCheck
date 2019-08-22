@@ -1,13 +1,8 @@
 #!/usr/bin/env python3.7
 
 import sys
-import time
-import datetime
 import smtplib
 import socket
-import urllib.request
-import dbus
-
 import os.path
 import getopt
 
@@ -16,9 +11,9 @@ from email.mime.text import MIMEText
 
 warnTemp = 0
 
-MY_ADDRESS = 'mcollins1290@gmail.com' #Username
-PASSWORD = 'qwezxcbn1290' #Password
-SMTPHost = 'smtp.gmail.com' #SMTP Host i.e. for Outlook 365
+MY_ADDRESS = 'SET YOUR EMAIL ADDRESS HERE' #Username
+PASSWORD = 'SET THE PASSWORD FOR YOUR EMAIL ACCOUNT HERE' #Password
+SMTPHost = 'SET YOUR SMTP HOST HERE' #SMTP Host i.e. for Outlook 365
 SMTPPort = 587 #SMTP Port
 
 def get_ip_address():
@@ -36,8 +31,10 @@ def getWarnTempArg(argv):
 
 	warnTemp = int(sys.argv[1])
 
-	output_msg = "DEBUG: Warning Temp set to: " + str(warnTemp) + "°C"
-	print(output_msg)
+	##### DEBUGGING
+	#output_msg = "DEBUG: Warning Temp set to: " + str(warnTemp) + "°C"
+	#print(output_msg)
+	#####
 
 def main():
 	global warnTemp
@@ -58,8 +55,10 @@ def main():
 		osTempFile = open(osTempFilePath, 'r')
 		cpuTempC = int(int(osTempFile.readline())/1000)
 		cpuTempF = int(cpuTempC*9/5+32)
+		###### DEBUGGING
 		#print(cpuTempC)
 		#print(cpuTempF)
+		######
 
 		if cpuTempC >= warnTemp:
 			status_msg_short = "CPU TEMP WARNING, PLEASE CHECK"
@@ -78,8 +77,9 @@ def main():
 		# Add set Warning Temp at bottom of email body
 		email_bdy_str = email_bdy_str + "\n(Set Warning Temp: " + str(warnTemp) + "°C)"
 
-		# print email body string ---- ONLY USED FOR DEBUGGING
-		print("DEBUG: "+ email_bdy_str)
+		###### DEBUGGING
+		#print("DEBUG: "+ email_bdy_str)
+		######
 
 		# setup the parameters of the email message
 		msg['From']=MY_ADDRESS
