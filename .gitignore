@@ -1,2 +1,4 @@
 #Ignore Log directory
 Log/
+#Ignore future updates to settings.ini for now
+/settings.ini
