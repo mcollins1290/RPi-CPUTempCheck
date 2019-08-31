@@ -21,7 +21,11 @@ usage_msg = "usage: " + sys.argv[0] + " <inputTempC> <SendEmailOnOK? (T/F)>"
 def getSettings():
 
 	global SETTINGS
-	settings_filename = 'settings.ini'
+	##### DEBUGGING
+	#currentDirectory = os.getcwd()
+	#print(currentDirectory)
+	#####
+	settings_filename = './settings.ini'
 	config = configparser.ConfigParser()
 	config.read(settings_filename)
 	# If settings file is missing, print error to CLI and Exit
