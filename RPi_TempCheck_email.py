@@ -40,7 +40,7 @@ def getSettings():
 			sys.exit(1)
 
 	if section == 'Email_Settings':
-		for option in [ 'EmailAddress', 'Password', 'SMTPHost', 'SMTPPort' ]:
+		for option in [ 'EmailAddress', 'ToAddress', 'Password', 'SMTPHost', 'SMTPPort' ]:
 			if not config.has_option(section, option):
 				print("ERROR: Missing Email Settings option: " + option +". Please check " + settings_filename + ". Exiting...")
 				sys.exit(1)
@@ -49,6 +49,7 @@ def getSettings():
 	try:
 		SETTINGS = {
 			'EMAIL_ADDRESS':config.get('Email_Settings', 'EmailAddress'),
+			'TO_ADDRESS':config.get('Email_Settings','ToAddress'),
 			'PASSWORD':config.get('Email_Settings', 'Password'),
 			'SMTP_HOST':config.get('Email_Settings', 'SMTPHost'),
 			'SMTP_PORT':config.getint('Email_Settings', 'SMTPPort')}
@@ -146,7 +147,7 @@ def main():
 
 			# setup the parameters of the email message
 			msg['From']=SETTINGS['EMAIL_ADDRESS']
-			msg['To']=SETTINGS['EMAIL_ADDRESS']
+			msg['To']=SETTINGS['TO_ADDRESS']
 			msg['Subject']="RPi CPU Temp Check Results for host " + socket.gethostbyaddr(socket.gethostname())[0] + ". Status Code: " + str(status_code)
 
 			# add to message the the message body string
