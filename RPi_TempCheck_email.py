@@ -167,7 +167,7 @@ def main():
 			# setup the parameters of the email message
 			msg['From']=EMAIL_SETTINGS['FROM_EMAIL']
 			msg['To']=EMAIL_SETTINGS['TO_EMAIL']
-			msg['Subject']="RPi CPU Temp Check Results for host " + socket.gethostbyaddr(socket.gethostname())[0] + ". Status Code: " + str(status_code)
+			msg['Subject']=str(status_code) + " - RPi CPU Temp Check Results for host " + socket.gethostbyaddr(socket.gethostname())[0]
 
 			# add to message the the message body string
 			msg.attach(MIMEText(email_bdy_str, 'plain'))
