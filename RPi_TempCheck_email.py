@@ -17,6 +17,7 @@ warnTemp = 0
 critTemp = 0
 sendEmail = True
 sendEmailonOK = True
+exitCode = None
 
 usage_msg = "usage: " + sys.argv[0] + " <SendEmailOnOK? (T/F)>"
 
@@ -97,11 +98,11 @@ def chkArgs(argv):
 
 	if len(argv) != 1:
 		print(usage_msg)
-		sys.exit(2)
+		sys.exit(1)
 
 	if argv[0] != 'T' and argv[0] != 'F':
 		print(usage_msg)
-		sys.exit(2)
+		sys.exit(1)
 
 	sendEmailonOK = str2bool(argv[0])
 
@@ -111,6 +112,7 @@ def main():
 	global critTemp
 	global sendEmailonOK
 	global sendEmail
+	global exitCode
 
 	osTempFilePath = '/sys/class/thermal/thermal_zone0/temp'
 
@@ -125,17 +127,20 @@ def main():
 		######
 
 		if cpuTempC >= critTemp:
-                        status_code = 'CRITICAL'
-                        status_msg_short = "CPU TEMP CRITICAL, PLEASE CHECK"
-                        status_msg_long = "CPU TEMP MEETS OR EXCEEDS SET CRITICAL TEMP, CHECK ASAP!!!"
+			status_code = 'CRITICAL'
+			status_msg_short = "CPU TEMP CRITICAL, PLEASE CHECK"
+			status_msg_long = "CPU TEMP MEETS OR EXCEEDS SET CRITICAL TEMP, CHECK ASAP!!!"
+			exitCode = 3
 		elif cpuTempC >= warnTemp:
 			status_code = 'WARNING'
 			status_msg_short = "CPU TEMP WARNING, PLEASE CHECK"
 			status_msg_long = "CPU TEMP MEETS OR EXCEEDS SET WARNING TEMP, CHECK ASAP!!!"
+			exitCode = 2
 		else:
 			status_code = 'OK'
 			status_msg_short = "CPU TEMP OK"
 			status_msg_long = "CPU Temperature is OK"
+			exitCode = 0
 
 			if sendEmailonOK == False:
 				sendEmail = False
@@ -189,4 +194,4 @@ if __name__ == '__main__':
 	chkArgs(sys.argv[1:])
 	getSettings()
 	main()
-	sys.exit(0)
+	sys.exit(exitCode)
