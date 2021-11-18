@@ -7,12 +7,14 @@ retVal=$?
 
 if [ "$LOGTOSQL" = true ] ; then
         logtext=$(cat ./Log/hourly-log)
-        echo 'Logging to Pi Health Check MariaDB enabled'
-        result=$(curl -G --data-urlencode "code=TEMP" \
+	echo 'Logging to Pi Health Check MariaDB enabled'
+        result=$(curl --silent -G --data-urlencode "code=TEMP" \
                          --data-urlencode "status=${retVal}" \
                          --data-urlencode "context=H" \
                          --data-urlencode "comment=${logtext}" \
                          --data-urlencode "hostname=$HOSTNAME" \
                         http://raspberrypi2.nyave:5000/insert/checklog)
-        echo "Log Result: $result"
+		echo "Log Result: $result"
 fi
+
+exit $retVal
