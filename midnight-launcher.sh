@@ -1,5 +1,6 @@
 #!/bin/bash
 LOGTOSQL=true
+HEALTHCHECK_API_URL=${HEALTHCHECK_API_URL:-http://localhost:5000}
 
 cd "$(dirname "$0")";
 ./RPi_TempCheck_email.py T > ./Log/midnight-log 2>&1
@@ -13,7 +14,7 @@ if [ "$LOGTOSQL" = true ] ; then
                          --data-urlencode "context=D" \
                          --data-urlencode "comment=${logtext}" \
                          --data-urlencode "hostname=$HOSTNAME" \
-                         http://raspberrypi2.totten:5000/insert/checklog)
+                         "$HEALTHCHECK_API_URL/insert/checklog")
                          echo "Log Result: $result"
 fi
 
